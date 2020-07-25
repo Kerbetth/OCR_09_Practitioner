@@ -1,8 +1,10 @@
 package com.medic.mediscreen.domain;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class PatHistory {
-    Integer id;
-    String riskLevel;
+    Integer patId;
     String note;
 
 }

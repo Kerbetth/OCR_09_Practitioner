@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 /**
  * -the root of the url give link to login or create an account
@@ -19,22 +22,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeControllers {
 
     @Autowired
-    private PatHistoryService patientRepository;
+    private PatHistoryService patHistoryService;
 
-    @RequestMapping("/")
-    public String getLog(Model model) {
-        return "LogPage";
+
+    @GetMapping("/patHistory/add/{patId}")
+    public void addAPatHistory(@PathVariable("patId") int patId, @RequestParam String e) {
+        patHistoryService.addAPatHistory(patId, e);
     }
 
-    @GetMapping("/patHistory/get")
-    public String userPage(Model model) {
-            return "UserPage";
-    }
-
-    @PostMapping("/patHistory/add")
-    public String userPage(PatHistory patHistory) {
-        patientRepository.addAPatHistory(patHistory);
-        return "UserPage";
+    @PostMapping("/patHistory/get/{patId}")
+    public List<PatHistory> userPage(@PathVariable("patId") int patId) {
+        return patHistoryService.getPatHistories(patId);
     }
 
 }
