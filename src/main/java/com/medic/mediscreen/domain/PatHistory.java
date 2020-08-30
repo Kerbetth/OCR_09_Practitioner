@@ -1,10 +1,21 @@
 package com.medic.mediscreen.domain;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
-@AllArgsConstructor
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "PATHISTORY")
+@EqualsAndHashCode(of = "id")
 public class PatHistory {
-    Integer patId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Integer id;
     String note;
-
+    Integer pat_id;
 }

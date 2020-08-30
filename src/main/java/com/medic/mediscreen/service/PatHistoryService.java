@@ -1,7 +1,7 @@
 package com.medic.mediscreen.service;
 
 import com.medic.mediscreen.domain.PatHistory;
-import com.medic.mediscreen.repositories.Patient_Repository;
+import com.medic.mediscreen.repositories.PatHistory_Repository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,14 +18,14 @@ import java.util.List;
 public class PatHistoryService {
 
     @Autowired
-    protected Patient_Repository patient_repository;
+    protected PatHistory_Repository patHistory_repository;
 
-    public List<PatHistory> getPatHistories(int patId) {
-        return patient_repository.findByPatId(patId);
+    public List<PatHistory> getPatHistories(int id) {
+        return patHistory_repository.findByPatId(id);
     }
 
-    public void addAPatHistory(int patId, String e) {
-        patient_repository.save(new PatHistory(patId, e));
-
+    public void addAPatHistory(int id, PatHistory e) {
+        e.setPat_id(id);
+        patHistory_repository.save(e);
     }
 }
