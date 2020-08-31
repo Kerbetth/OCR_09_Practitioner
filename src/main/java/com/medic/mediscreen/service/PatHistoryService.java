@@ -1,10 +1,12 @@
 package com.medic.mediscreen.service;
 
 import com.medic.mediscreen.domain.PatHistory;
-import com.medic.mediscreen.repositories.PatHistoryRepository;
+import com.medic.mediscreen.repositories.PatHistory_Repository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * createAccount() method create a new user account with encrypted password and save it in database
@@ -16,10 +18,14 @@ import org.springframework.stereotype.Service;
 public class PatHistoryService {
 
     @Autowired
-    protected PatHistoryRepository patHystoryRepository;
+    protected PatHistory_Repository patHistory_repository;
 
-    public void addAPatHistory(PatHistory patHistory) {
-        patHystoryRepository.save(patHistory);
+    public List<PatHistory> getPatHistories(int id) {
+        return patHistory_repository.findByPatId(id);
     }
 
+    public void addAPatHistory(int id, PatHistory e) {
+        e.setPat_id(id);
+        patHistory_repository.save(e);
+    }
 }

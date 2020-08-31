@@ -6,10 +6,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableFeignClients
-public class MediscreenApplication {
+public class MediscreenPractionerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MediscreenApplication.class, args);
+		SpringApplication.run(MediscreenPractionerApplication.class, args);
 	}
 
 }
