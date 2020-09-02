@@ -34,15 +34,13 @@ public class PatHistoryController {
 	MockMvc mockMvc;
 
 
-    List<PatHistory> patHistories =new ArrayList<>();
-    PatHistory patHistory = new PatHistory();
+    List<String> patHistories =new ArrayList<>();
+    PatHistory patHistory = new PatHistory("a note",1);
     ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     void setup() {
-        patHistory.setId(1);
-        patHistory.setNote("a note");
-	patHistories.add(new PatHistory());
+	patHistories.add(patHistory.getNote());
     }
 
     @Test

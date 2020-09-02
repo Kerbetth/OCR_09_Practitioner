@@ -37,12 +37,10 @@ public class PatHistoryControllerIT {
 
 
     ObjectMapper objectMapper = new ObjectMapper();
-    PatHistory patient = new PatHistory();
+    PatHistory patient = new PatHistory("a note",1);
 
     @BeforeEach
     void setup() {
-        patient.setNote("a note");
-        patient.setPat_id(1);
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }

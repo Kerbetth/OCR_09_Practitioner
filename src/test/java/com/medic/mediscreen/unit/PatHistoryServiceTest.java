@@ -2,7 +2,8 @@ package com.medic.mediscreen.unit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.medic.mediscreen.domain.PatHistory;
-import com.medic.mediscreen.repositories.PatHistory_Repository;
+import com.medic.mediscreen.dto.CreatePatHistory;
+import com.medic.mediscreen.repositories.PatHistoryRepository;
 import com.medic.mediscreen.service.PatHistoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,21 +24,20 @@ import static org.mockito.Mockito.when;
 public class PatHistoryServiceTest {
 
     @Mock
-    private PatHistory_Repository patHistory_repository;
+    private PatHistoryRepository patHistory_repository;
 
     @InjectMocks
     private PatHistoryService PatHistoryService = new PatHistoryService();
 
-    PatHistory patHistory = new PatHistory();
+    CreatePatHistory patHistory = new CreatePatHistory();
     List<PatHistory> patHistories = new ArrayList<>();
-    PatHistory patHistory1 = new PatHistory();
-    ObjectMapper objectMapper = new ObjectMapper();
+    PatHistory patHistory1 = new PatHistory("a note",1);
 
     @BeforeEach
     void setup() {
         patHistory.setId(1);
         patHistory.setNote("a note");
-        patHistories.add(new PatHistory());
+        patHistories.add(patHistory1);
     }
 
     @Test
@@ -49,8 +49,6 @@ public class PatHistoryServiceTest {
 
     @Test
     public void addingAPatHistory() {
-        patHistory1.setId(2);
-        patHistory1.setNote("another note");
-        PatHistoryService.addAPatHistory(1, patHistory1);
+        PatHistoryService.addAPatHistory(patHistory);
     }
 }

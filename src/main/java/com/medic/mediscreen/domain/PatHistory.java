@@ -1,21 +1,26 @@
 package com.medic.mediscreen.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@Entity
-@Table(name = "PATHISTORY")
-@EqualsAndHashCode(of = "id")
+@Document(collection = "patHistory")
 public class PatHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Integer id;
+    String id;
     String note;
-    Integer pat_id;
+    Integer patId;
+
+    public PatHistory(String note, Integer patId) {
+        this.note = note;
+        this.patId = patId;
+    }
 }
