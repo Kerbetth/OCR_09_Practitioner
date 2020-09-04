@@ -41,7 +41,7 @@ public class PatHistoryServiceTest {
     }
 
     @Test
-    public void getAllPatHistorys() {
+    public void getAllPatHistory() {
         when(patHistory_repository.findByPatId(anyInt())).thenReturn(patHistories);
         assertThat(PatHistoryService.getPatHistories(1)).hasSize(1);
     }
