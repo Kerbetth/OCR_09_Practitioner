@@ -33,7 +33,6 @@ public class PatHistoryService {
     }
 
     public void addAPatHistory(CreatePatHistory dto) {
-        System.out.println(dto.getNote());
         patHistoryRepository.save(new PatHistory(dto.getNote(), dto.getId()));
     }
 }

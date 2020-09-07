@@ -1,4 +1,4 @@
 FROM openjdk:14
-ADD build/libs/medi-practioner.jar medi-practioner.jar
+ADD target/mediscreen-practioner-1.jar mediscreen-practioner-1.jar
 EXPOSE 8082
-ENTRYPOINT ["java", "-jar", "medi-practioner.jar"]
+ENTRYPOINT ["java", "-jar", "mediscreen-practioner-1.jar"]

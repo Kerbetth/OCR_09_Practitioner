@@ -10,8 +10,8 @@
     </parent>
 
     <groupId>com.medic</groupId>
-    <artifactId>mediscreen</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>mediscreen-practioner</artifactId>
+    <version>1</version>
     <name>mediscreen</name>
     <description>application for medical purposes</description>
 
