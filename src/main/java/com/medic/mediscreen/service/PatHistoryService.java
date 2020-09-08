@@ -1,19 +1,21 @@
 package com.medic.mediscreen.service;
 
 import com.medic.mediscreen.domain.PatHistory;
-import com.medic.mediscreen.dto.CreatePatHistory;
 import com.medic.mediscreen.repositories.PatHistoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
- * createAccount() method create a new user account with encrypted password and save it in database
- * getAccountInfo() method retrieve name and email from the user
+ * getPatHistories() retrieve all notes from a specific patient according to the id of the patient
+ * addAPatHistory() add a new note for a patient
+ * setAPatHistory() retrieve a patHistory object according to his id, set the note attribute and save the modification
  */
 
 @Service
@@ -24,7 +26,12 @@ public class PatHistoryService {
     @Autowired
     protected PatHistoryRepository patHistoryRepository;
 
-    public List<String> getPatHistories(int id) {
+
+    public List<PatHistory> getPatHistories(int id) {
+        return patHistoryRepository.findByPatId(id);
+    }
+
+    public List<String> getNotes(int id) {
         List<String> notes = new ArrayList<>();
         for(PatHistory patHistory: patHistoryRepository.findByPatId(id)){
             notes.add(patHistory.getNote());
@@ -32,7 +39,21 @@ public class PatHistoryService {
         return notes;
     }
 
-    public void addAPatHistory(CreatePatHistory dto) {
-        patHistoryRepository.save(new PatHistory(dto.getNote(), dto.getId()));
+    public void addAPatHistory(PatHistory dto) {
+        patHistoryRepository.save(dto);
+    }
+    public void setAPatHistory(PatHistory dto) {
+        Optional<PatHistory> patientOptional = patHistoryRepository.findById(dto.getId());
+        if (patientOptional.isPresent()) {
+            patHistoryRepository.save(dto);
+        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                "No note found with this id");
+    }
+    public void delAPatHistory(String id) {
+        Optional<PatHistory> patientOptional = patHistoryRepository.findById(id);
+        if (patientOptional.isPresent()) {
+            patHistoryRepository.delete(patientOptional.get());
+        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                "No note found with this id");
     }
 }
