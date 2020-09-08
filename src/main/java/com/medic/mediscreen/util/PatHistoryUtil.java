@@ -1,5 +1,8 @@
 package com.medic.mediscreen.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.medic.mediscreen.domain.PatHistory;
 import com.medic.mediscreen.dto.CreatePatHistory;
@@ -15,6 +18,8 @@ import javax.annotation.PostConstruct;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -30,36 +35,46 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class PatHistoryUtil {
 
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
-
     @Autowired
-    protected PatHistoryService patHistoryService;
-
-    List<CreatePatHistory> patHistoriesInit = new ArrayList<>();
+    private PatHistoryRepository patHistoryRepository;
+    private List<CreatePatHistory> patHistoriesInit = new ArrayList<>();
+    @Value("${executiveTest}")
+    private boolean executiveTest;
 
     PatHistoryUtil(@Value("${jsonFileName}") String jsonfile) {
-        try {
-            FileReader fileString = new FileReader(getClass().getClassLoader().getResource(jsonfile).getFile(), StandardCharsets.UTF_8);
-            patHistoriesInit = new ObjectMapper()
-                    .readValue(fileString,
-                            List.class
-                    );
-            fileString.close();
+            String content = null;
+        JsonNode jsonNode = null;
+        ObjectMapper mapper = new ObjectMapper();
+            try {
+                content = new String(Files.readAllBytes(Paths.get("src/main/resources/"+jsonfile)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                jsonNode = mapper.readTree(content);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
             log.info("initial json data read");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        patHistoriesInit = mapper.convertValue(
+                jsonNode,
+                new TypeReference<List<CreatePatHistory>>(){}
+        );
     }
 
 
     @PostConstruct
     public void injectData() {
-        log.info("patHistory data cleared");
-        System.out.println(patHistoriesInit);
-        for (CreatePatHistory dto : patHistoriesInit) {
-            patHistoryService.addAPatHistory(dto);
+        if (executiveTest) {
+            log.info("patHistory data from MongoDb cleared");
+            patHistoryRepository.deleteAll();
+            for (CreatePatHistory dto : patHistoriesInit) {
+                patHistoryRepository.save(new PatHistory(dto.getNote(), dto.getId()));
+            }
+            log.info("initial data injected in mongoDb");
         }
-        log.info("initial data injected in mongodb");
     }
 
 }
