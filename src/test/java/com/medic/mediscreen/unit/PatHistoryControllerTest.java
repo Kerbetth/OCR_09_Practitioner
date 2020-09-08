@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc(addFilters = false)
-public class PatHistoryController {
+public class PatHistoryControllerTest {
 
     @MockBean
     private PatHistoryService patHistoryService;
@@ -34,21 +35,19 @@ public class PatHistoryController {
 	MockMvc mockMvc;
 
 
-    List<PatHistory> patHistories =new ArrayList<>();
-    PatHistory patHistory = new PatHistory();
+    List<String> patHistories =new ArrayList<>();
+    PatHistory patHistory = new PatHistory("a note",1);
     ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     void setup() {
-        patHistory.setId(1);
-        patHistory.setNote("a note");
-	patHistories.add(new PatHistory());
+	patHistories.add(patHistory.getNote());
     }
 
     @Test
     public void getAllPatHistories() throws Exception {
         when(patHistoryService.getPatHistories(anyInt())).thenReturn(patHistories);
-        mockMvc.perform(get("/patHistory")
+        mockMvc.perform(get("/patHistory/getNotes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("id","1")
         )
