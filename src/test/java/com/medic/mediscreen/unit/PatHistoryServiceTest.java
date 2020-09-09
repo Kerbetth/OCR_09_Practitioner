@@ -1,8 +1,7 @@
 package com.medic.mediscreen.unit;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.medic.mediscreen.domain.PatHistory;
-import com.medic.mediscreen.dto.CreatePatHistory;
 import com.medic.mediscreen.repositories.PatHistoryRepository;
 import com.medic.mediscreen.service.PatHistoryService;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,21 +28,19 @@ public class PatHistoryServiceTest {
     @InjectMocks
     private PatHistoryService PatHistoryService = new PatHistoryService();
 
-    CreatePatHistory patHistory = new CreatePatHistory();
-    List<PatHistory> patHistories = new ArrayList<>();
-    PatHistory patHistory1 = new PatHistory("a note",1);
+    PatHistory patHistory = new PatHistory("a note",1);
+    List<com.medic.mediscreen.domain.PatHistory> patHistories = new ArrayList<>();
+    com.medic.mediscreen.domain.PatHistory patHistory1 = new com.medic.mediscreen.domain.PatHistory("a note",1);
 
     @BeforeEach
     void setup() {
-        patHistory.setId(1);
-        patHistory.setNote("a note");
         patHistories.add(patHistory1);
     }
 
     @Test
     public void getAllPatHistory() {
         when(patHistory_repository.findByPatId(anyInt())).thenReturn(patHistories);
-        assertThat(PatHistoryService.getPatHistories(1)).hasSize(1);
+        assertThat(PatHistoryService.getNotes(1)).hasSize(1);
     }
 
 

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.medic.mediscreen.domain.PatHistory;
-import com.medic.mediscreen.dto.CreatePatHistory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +36,10 @@ public class PatHistoryControllerITest {
 
 
     ObjectMapper objectMapper = new ObjectMapper();
-    CreatePatHistory patHistory = new CreatePatHistory();
+    PatHistory patHistory = new PatHistory("a note",1);
 
     @BeforeEach
     void setup() {
-        patHistory.setId(1);
-        patHistory.setNote("a note");
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mongoTemplate.getDb().drop();
@@ -54,7 +51,7 @@ public class PatHistoryControllerITest {
                .param("id", "1")
         )
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-        ArrayList<PatHistory> patients = objectMapper.readValue(result, ArrayList.class);
+        ArrayList<com.medic.mediscreen.domain.PatHistory> patients = objectMapper.readValue(result, ArrayList.class);
         assertThat(patients).hasSize(0);
     }
 
@@ -84,7 +81,7 @@ public class PatHistoryControllerITest {
                 .param("id", "1")
         )
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-        ArrayList<PatHistory> patients = objectMapper.readValue(result, ArrayList.class);
+        ArrayList<com.medic.mediscreen.domain.PatHistory> patients = objectMapper.readValue(result, ArrayList.class);
         assertThat(patients).hasSize(1);
     }
 }
