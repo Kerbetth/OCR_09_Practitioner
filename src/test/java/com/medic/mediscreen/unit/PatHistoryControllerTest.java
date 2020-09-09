@@ -10,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -46,7 +45,7 @@ public class PatHistoryControllerTest {
 
     @Test
     public void getAllPatHistories() throws Exception {
-        when(patHistoryService.getPatHistories(anyInt())).thenReturn(patHistories);
+        when(patHistoryService.getNotes(anyInt())).thenReturn(patHistories);
         mockMvc.perform(get("/patHistory/getNotes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("id","1")
