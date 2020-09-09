@@ -16,7 +16,7 @@ import javax.persistence.GenerationType;
 @NoArgsConstructor
 public class PatHistory {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     String id;
     String note;
     Integer patId;

@@ -42,6 +42,7 @@ public class PatHistoryService {
     public void addAPatHistory(PatHistory dto) {
         patHistoryRepository.save(dto);
     }
+
     public void setAPatHistory(PatHistory dto) {
         Optional<PatHistory> patientOptional = patHistoryRepository.findById(dto.getId());
         if (patientOptional.isPresent()) {

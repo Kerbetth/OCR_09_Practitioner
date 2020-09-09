@@ -7,20 +7,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.medic.mediscreen.domain.PatHistory;
 import com.medic.mediscreen.repositories.PatHistoryRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * createAccount() method create a new user account with encrypted password and save it in database
- * getAccountInfo() method retrieve name and email from the user
+ * this service inject defaut data define in the test_data_init.json file at the beginning of the application
  */
 
 @Service
@@ -37,24 +39,25 @@ public class PatHistoryUtil {
             String content = null;
         JsonNode jsonNode = null;
         ObjectMapper mapper = new ObjectMapper();
-            try {
-                content = new String(Files.readAllBytes(Paths.get("src/main/resources/"+jsonfile)));
+        BufferedReader bufferedReader = null;
+
+        bufferedReader =  new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/"+jsonfile)));
+
+        try {
+                jsonNode = mapper.readTree(bufferedReader.lines().collect(Collectors.joining()));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            try {
-                jsonNode = mapper.readTree(content);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
-            log.info("initial json data read");
+        log.info("initial json data read");
 
         patHistoriesInit = mapper.convertValue(
                 jsonNode,
                 new TypeReference<List<PatHistory>>(){}
         );
     }
+
 
 
     @PostConstruct
