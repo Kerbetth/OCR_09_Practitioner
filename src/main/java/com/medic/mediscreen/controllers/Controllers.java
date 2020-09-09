@@ -35,12 +35,12 @@ public class Controllers {
         patHistoryService.addAPatHistory(patHistory);
     }
 
-    @RequestMapping(value = "/patHistory/set")
+    @PutMapping(value = "/patHistory/set")
     void setAPatient(@RequestBody @Valid com.medic.mediscreen.domain.PatHistory patHistory) {
         patHistoryService.setAPatHistory(patHistory);
     }
 
-    @RequestMapping(value = "/patHistory/del")
+    @DeleteMapping(value = "/patHistory/del")
     void deleteAPatient(@RequestParam String noteId) {
         patHistoryService.delAPatHistory(noteId);
     }
