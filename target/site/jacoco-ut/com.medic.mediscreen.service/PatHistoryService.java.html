@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PatHistoryService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mediscreen</a> &gt; <a href="index.source.html" class="el_package">com.medic.mediscreen.service</a> &gt; <span class="el_source">PatHistoryService.java</span></div><h1>PatHistoryService.java</h1><pre class="source lang-java linenums">package com.medic.mediscreen.service;
+
+import com.medic.mediscreen.domain.PatHistory;
+import com.medic.mediscreen.repositories.PatHistoryRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * getPatHistories() retrieve all notes from a specific patient according to the id of the patient
+ * addAPatHistory() add a new note for a patient
+ * setAPatHistory() retrieve a patHistory object according to his id, set the note attribute and save the modification
+ */
+
+@Service
+<span class="fc" id="L22">@Slf4j</span>
+<span class="fc" id="L23">public class PatHistoryService {</span>
+
+
+    @Autowired
+    protected PatHistoryRepository patHistoryRepository;
+
+
+    public List&lt;PatHistory&gt; getPatHistories(int id) {
+<span class="nc" id="L31">        return patHistoryRepository.findByPatId(id);</span>
+    }
+
+    public List&lt;String&gt; getNotes(int id) {
+<span class="fc" id="L35">        List&lt;String&gt; notes = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        for(PatHistory patHistory: patHistoryRepository.findByPatId(id)){</span>
+<span class="fc" id="L37">            notes.add(patHistory.getNote());</span>
+<span class="fc" id="L38">        }</span>
+<span class="fc" id="L39">        return notes;</span>
+    }
+
+    public void addAPatHistory(PatHistory dto) {
+<span class="fc" id="L43">        patHistoryRepository.save(dto);</span>
+<span class="fc" id="L44">    }</span>
+
+    public void setAPatHistory(PatHistory dto) {
+<span class="nc" id="L47">        Optional&lt;PatHistory&gt; patientOptional = patHistoryRepository.findById(dto.getId());</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        if (patientOptional.isPresent()) {</span>
+<span class="nc" id="L49">            patHistoryRepository.save(dto);</span>
+<span class="nc" id="L50">        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,</span>
+                &quot;No note found with this id&quot;);
+<span class="nc" id="L52">    }</span>
+    public void delAPatHistory(String id) {
+<span class="nc" id="L54">        Optional&lt;PatHistory&gt; patientOptional = patHistoryRepository.findById(id);</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if (patientOptional.isPresent()) {</span>
+<span class="nc" id="L56">            patHistoryRepository.delete(patientOptional.get());</span>
+<span class="nc" id="L57">        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,</span>
+                &quot;No note found with this id&quot;);
+<span class="nc" id="L59">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

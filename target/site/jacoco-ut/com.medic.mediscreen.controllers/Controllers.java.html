@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Controllers.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mediscreen</a> &gt; <a href="index.source.html" class="el_package">com.medic.mediscreen.controllers</a> &gt; <span class="el_source">Controllers.java</span></div><h1>Controllers.java</h1><pre class="source lang-java linenums">package com.medic.mediscreen.controllers;
+
+
+import com.medic.mediscreen.domain.PatHistory;
+import com.medic.mediscreen.service.PatHistoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+
+/**
+ * -All the following endpoints execute CRUD request for the PatHistory Object
+ */
+
+@RestController
+<span class="fc" id="L17">public class Controllers {</span>
+
+    @Autowired
+    private PatHistoryService patHistoryService;
+
+
+    @RequestMapping(&quot;/patHistory/getPatHistories&quot;)
+    public List&lt;com.medic.mediscreen.domain.PatHistory&gt; getPatHistories(@RequestParam int id) {
+<span class="nc" id="L25">        return patHistoryService.getPatHistories(id);</span>
+    }
+
+    @RequestMapping(&quot;/patHistory/getNotes&quot;)
+    public List&lt;String&gt; getNotes(@RequestParam int id) {
+<span class="fc" id="L30">        return patHistoryService.getNotes(id);</span>
+    }
+
+    @PostMapping(&quot;/patHistory/add&quot;)
+    public void addAPatHistory(@RequestBody PatHistory patHistory) {
+<span class="fc" id="L35">        patHistoryService.addAPatHistory(patHistory);</span>
+<span class="fc" id="L36">    }</span>
+
+    @PutMapping(value = &quot;/patHistory/set&quot;)
+    void setAPatient(@RequestBody @Valid com.medic.mediscreen.domain.PatHistory patHistory) {
+<span class="nc" id="L40">        patHistoryService.setAPatHistory(patHistory);</span>
+<span class="nc" id="L41">    }</span>
+
+    @DeleteMapping(value = &quot;/patHistory/del&quot;)
+    void deleteAPatient(@RequestParam String noteId) {
+<span class="nc" id="L45">        patHistoryService.delAPatHistory(noteId);</span>
+<span class="nc" id="L46">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

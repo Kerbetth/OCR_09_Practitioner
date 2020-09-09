@@ -1,0 +1,3 @@
+com\medic\mediscreen\unit\PatHistoryServiceTest.class
+com\medic\mediscreen\integration\PatHistoryControllerITest.class
+com\medic\mediscreen\unit\PatHistoryControllerTest.class

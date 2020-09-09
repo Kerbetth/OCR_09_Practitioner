@@ -1,0 +1,8 @@
+com\medic\mediscreen\MediscreenPractionerApplication.class
+com\medic\mediscreen\repositories\PatHistoryRepository.class
+com\medic\mediscreen\service\PatHistoryService.class
+com\medic\mediscreen\util\PatHistoryUtil$1.class
+com\medic\mediscreen\domain\PatHistory.class
+com\medic\mediscreen\controllers\Controllers.class
+com\medic\mediscreen\util\PatHistoryUtil.class
+com\medic\mediscreen\Config.class
