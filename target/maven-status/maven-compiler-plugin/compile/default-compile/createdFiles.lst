@@ -6,3 +6,4 @@ com\medic\mediscreen\domain\PatHistory.class
 com\medic\mediscreen\controllers\Controllers.class
 com\medic\mediscreen\util\PatHistoryUtil.class
 com\medic\mediscreen\Config.class
+com\medic\mediscreen\exceptions\PatHistoryNotFoundException.class

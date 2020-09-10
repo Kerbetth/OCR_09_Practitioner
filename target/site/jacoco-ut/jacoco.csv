@@ -1,5 +1,6 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-mediscreen,com.medic.mediscreen.service,PatHistoryService,49,38,4,2,11,9,5,5,3,4
+mediscreen,com.medic.mediscreen.exceptions,PatHistoryNotFoundException,4,0,0,0,2,0,1,0,1,0
+mediscreen,com.medic.mediscreen.service,PatHistoryService,56,38,4,2,13,9,5,5,3,4
 mediscreen,com.medic.mediscreen.util,PatHistoryUtil.new TypeReference() {...},0,6,0,0,0,1,0,1,0,1
 mediscreen,com.medic.mediscreen.util,PatHistoryUtil,7,92,1,3,4,21,1,4,0,3
 mediscreen,com.medic.mediscreen,Config,0,21,0,0,0,7,0,2,0,2

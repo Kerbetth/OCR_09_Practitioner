@@ -1,6 +1,7 @@
 package com.medic.mediscreen.service;
 
 import com.medic.mediscreen.domain.PatHistory;
+import com.medic.mediscreen.exceptions.PatHistoryNotFoundException;
 import com.medic.mediscreen.repositories.PatHistoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,14 +48,18 @@ public class PatHistoryService {
         Optional<PatHistory> patientOptional = patHistoryRepository.findById(dto.getId());
         if (patientOptional.isPresent()) {
             patHistoryRepository.save(dto);
-        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                "No note found with this id");
+        } else {
+            log.info("No patient note found with the id: "+dto.getId());
+            throw new PatHistoryNotFoundException("No patient note found with this id, setting canceled");
+        }
     }
     public void delAPatHistory(String id) {
         Optional<PatHistory> patientOptional = patHistoryRepository.findById(id);
         if (patientOptional.isPresent()) {
             patHistoryRepository.delete(patientOptional.get());
-        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                "No note found with this id");
+        } else {
+            log.info("No patient note found with the id: "+id);
+            throw new PatHistoryNotFoundException("No patient note found with this id, delete canceled");
+        }
     }
 }
